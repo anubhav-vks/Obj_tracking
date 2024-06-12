@@ -6,7 +6,7 @@ import requests
 def setValues(x):
     print("")
 
-url = "http://192.168.1.35:8080/shot.jpg"
+url = "http://192.168.1.33:8080/shot.jpg"
 cv2.namedWindow("Threshold")
 cv2.resizeWindow("Threshold", width=680, height=80)
 cv2.createTrackbar("Lower Threshold", "Threshold", 0,500, setValues)

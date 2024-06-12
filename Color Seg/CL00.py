@@ -55,7 +55,7 @@ if __name__ == '__main__':
         
         res = cv2.bitwise_and(frame, frame, mask=mask)
         res = cv2.medianBlur(res, 5)
-        # cv2.imshow("original image", frame)
+        cv2.imshow("original image", frame)
         cv2.imshow('masked img', res)
         canny_out = cv2.Canny(res, 80, 120)
         

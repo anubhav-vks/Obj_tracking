@@ -22,7 +22,7 @@ while True:
     img_arr = np.array(bytearray(img_resp.content), dtype=np.uint8) 
     img = cv2.imdecode(img_arr, -1) 
     img = imutils.resize(img, width=500, height=900) 
-    cv2.imshow("Android_cam", img) 
+    # cv2.imshow("Android_cam", img) 
     
     roi = cv2.selectROI(img)
     print(roi)
@@ -39,9 +39,9 @@ while True:
     
     frame = img[int(roi[1]):int(roi[1]+roi[3]),
                 int(roi[0]):int(roi[0] + roi[2])] 
-
-    # frame = img
     
+    # frame = img
+    img1 = img
     # Take HSV value from user
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     u_hue = cv2.getTrackbarPos("Upper Hue", "Color detectors")
@@ -75,8 +75,8 @@ while True:
         centroid_x, centroid_y = 0, 0
     out = canny_out
     centro = str(centroid_x) +" , " +str(centroid_y)
-    cv2.circle(out, center=(centroid_x, centroid_y), radius=5,color= (255, 0, 0),thickness= -1)
-    cv2.putText(out, centro, (centroid_x, centroid_y), cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),1 )
+    # cv2.circle(out, center=(centroid_x, centroid_y), radius=5,color= (255, 0, 0),thickness= -1)
+    # cv2.putText(out, centro, (centroid_x, centroid_y), cv2.FONT_HERSHEY_SIMPLEX,1,(255,0,0),1 )
     cv2.imshow('CANNY', out)
         
     # c = cv2.waitKey(5)
