@@ -46,7 +46,7 @@ def main():
         frame = np.zeros(img.shape, dtype=np.uint8)
         frame[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])] = img[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
 
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        hsv_img = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         u_hue = cv2.getTrackbarPos("Upper Hue", "Color Detectors")
         u_saturation = cv2.getTrackbarPos("Upper Saturation", "Color Detectors")
@@ -58,17 +58,23 @@ def main():
         upper_hsv = np.array([u_hue, u_saturation, u_value])
         lower_hsv = np.array([l_hue, l_saturation, l_value])
 
-        mask = cv2.inRange(hsv, lower_hsv, upper_hsv)
-        res = cv2.bitwise_and(frame, frame, mask=mask)
+        mask = cv2.inRange(hsv_img, lower_hsv, upper_hsv)
+        # cv2.imshow("nw", mask)
+        res = cv2.bitwise_and(frame, frame, mask=mask)  # Bitwise_AND b/w the image and itself but only in the region of mask
         res = cv2.medianBlur(res, 5)
 
         cv2.imshow('Masked Image', res)
 
         canny_out = cv2.Canny(res, 80, 120)
-        contours, _ = cv2.findContours(canny_out, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(canny_out, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
+        # moments are data types to store easy representation of contours like save only 2 points for a rectangle
         moments = cv2.moments(canny_out)
-        centroid_x, centroid_y = (0, 0) if moments['m00'] == 0 else (int(moments['m10'] / moments['m00']), int(moments['m01'] / moments['m00']))
+        if moments['m00'] != 0:
+            centroid_x = int(moments['m10'] / moments['m00'])
+            centroid_y = int(moments['m01'] / moments['m00'])
+        else:
+            centroid_x, centroid_y = 0, 0
 
         cv2.circle(canny_out, (centroid_x, centroid_y), 5, (255, 0, 0), -1)
         cv2.putText(canny_out, f"{centroid_x}, {centroid_y}", (centroid_x, centroid_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 1)
