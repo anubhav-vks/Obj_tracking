@@ -35,7 +35,8 @@ while True:
     img_arr = np.array(bytearray(img_resp.content), dtype=np.uint8) 
     img = cv2.imdecode(img_arr, -1) 
     img = imutils.resize(img, width=500, height=900) 
-    cv2.rectangle(img, (roi[0],roi[1] ), (roi[2],roi[3]), color=(255,0,0), thickness=2)
+    # cv2.rectangle(img, (roi[1],roi[0] ), (roi[2],roi[3]), color=(255,0,0), thickness=2)
+    # print((roi[0],roi[1] ), (roi[2],roi[3]))
     cv2.imshow("Android_cam", img) 
     # print(img.shape)
      

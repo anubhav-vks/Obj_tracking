@@ -3,8 +3,6 @@ import numpy as np
 
 # For phone back color : HSV: 72,153,204 ,,, 0, 76, 102
 
-
-
 def setValues(x):
     print("")
     
